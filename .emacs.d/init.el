@@ -1,4 +1,4 @@
-(load-theme 'manoj-dark t)
+(load-theme 'dark-laptop t)
 
 (tool-bar-mode -1)
 (menu-bar-mode -1)
