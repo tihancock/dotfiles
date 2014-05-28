@@ -5,10 +5,12 @@
              '("melpa" . "http://melpa.milkbox.net/packages/"))
 (package-initialize)
 
-(package-refresh-contents)
+(when (not package-archive-contents) (package-refresh-contents))
 
 (dolist (p '(multiple-cursors
-             paredit))
+             paredit
+             clojure-mode
+             window-number))
   (when (not (package-installed-p p))
     (package-install p)))
 
@@ -34,7 +36,6 @@
 
 (setq c-basic-offset 4)
 
-(add-to-list 'load-path "~/.emacs.d/window-number")
 (require 'window-number)
 (window-number-meta-mode)
 
