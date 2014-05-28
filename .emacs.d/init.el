@@ -10,7 +10,8 @@
 (dolist (p '(multiple-cursors
              paredit
              clojure-mode
-             window-number))
+             window-number
+             cider))
   (when (not (package-installed-p p))
     (package-install p)))
 
