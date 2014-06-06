@@ -106,7 +106,11 @@ fi
 # personal
 function xe ()
 {
-    emacs -mm $1 & > /dev/null 2>&1
+    if [ "$(uname)" == "Darwin" ]; then
+        /Applications/Emacs.app/Contents/MacOS/Emacs -mm $1 & > /dev/null 2>&1
+    else
+        emacs -mm $1 & > /dev/null 2>&1
+    fi
 }
 
 # enable programmable completion features (you don't need to enable
