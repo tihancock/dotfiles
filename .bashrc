@@ -107,7 +107,7 @@ fi
 function xe ()
 {
     if [ "$(uname)" == "Darwin" ]; then
-        /Applications/Emacs.app/Contents/MacOS/Emacs -mm $1 & > /dev/null 2>&1
+        open -a /Applications/Emacs.app/Contents/MacOS/Emacs --args -mm $1 & > /dev/null 2>&1
     else
         emacs -mm $1 & > /dev/null 2>&1
     fi
