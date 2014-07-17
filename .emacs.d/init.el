@@ -2,7 +2,7 @@
 
 (require 'package)
 (add-to-list 'package-archives
-             '("melpa" . "http://melpa.milkbox.net/packages/"))
+             '("marmalade" . "http://marmalade-repo.org/packages/") t)
 (package-initialize)
 
 (when (not package-archive-contents) (package-refresh-contents))
@@ -50,6 +50,10 @@
 (setq indent-line-function 'insert-tab)
 
 (add-hook 'clojure-mode-hook 'paredit-mode)
+(add-hook 'cider-mode-hook 'cider-turn-on-eldoc-mode)
+(setq nrepl-hide-special-buffers t)
+(setq cider-repl-pop-to-buffer-on-connect nil)
+(setq cider-show-error-buffer nil)
 
 (setq locale-coding-system 'utf-8)
 (set-terminal-coding-system 'utf-8)
