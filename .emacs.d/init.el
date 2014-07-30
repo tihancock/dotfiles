@@ -72,3 +72,29 @@
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  )
+
+(eval-after-load "grep"
+  '(grep-compute-defaults))
+
+(defun find-git-root (&optional dir)
+  (interactive)
+  (unless dir (setq dir (expand-file-name (file-name-directory (buffer-file-name)))))
+  (let ((parent (expand-file-name ".." dir)))
+    (if (file-exists-p (expand-file-name ".git" dir))
+        dir
+        (if (equal dir "/")
+            (error "No .git directory above")
+            (find-git-root parent)))))
+
+(defun rgrep-token-under-point-in-project-root-dir ()
+  (interactive)
+  (let ((file-name (buffer-file-name)))
+    (if file-name
+        (progn
+          (rgrep (current-word)
+                 (concat "*." (file-name-extension file-name))
+                 (find-git-root))
+          (switch-to-buffer-other-frame "*grep*"))
+        (error "Buffer not backed by file"))))
+
+(global-set-key (kbd "C-#") 'rgrep-token-under-point-in-project-root-dir)
