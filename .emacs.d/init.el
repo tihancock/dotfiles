@@ -11,7 +11,8 @@
              paredit
              clojure-mode
              window-number
-             cider))
+             cider
+             magit))
   (when (not (package-installed-p p))
     (package-install p)))
 
