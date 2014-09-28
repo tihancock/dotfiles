@@ -12,13 +12,16 @@
              clojure-mode
              window-number
              cider
-             magit))
+             magit
+             xscheme))
   (when (not (package-installed-p p))
     (package-install p)))
 
 (tool-bar-mode -1)
 (menu-bar-mode -1)
 (scroll-bar-mode -1)
+
+(load-library "xscheme")
 
 (require 'font-lock)
 
