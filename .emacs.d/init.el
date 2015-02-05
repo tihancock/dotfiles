@@ -62,6 +62,21 @@
 (setq cider-repl-pop-to-buffer-on-connect nil)
 (setq cider-show-error-buffer nil)
 
+;; org
+(require 'org-habit)
+(setq org-log-done 'time)
+(global-set-key (kbd "C-c a") 'org-archive-subtree-default)
+
+(setq org-directory "~/org")
+(setq org-mobile-directory "~/Dropbox/mobileorg")
+(setq org-agenda-files '("~/org/todo.org"))
+(setq org-mobile-inbox-for-pull "~/org/from-mobile.org")
+
+(add-hook 
+ 'org-mode-hook
+ (lambda()
+   (define-key org-mode-map 
+     (kbd "<f5>") 'org-export-as-pdf)))
 (setq locale-coding-system 'utf-8)
 (set-terminal-coding-system 'utf-8)
 (set-keyboard-coding-system 'utf-8)
