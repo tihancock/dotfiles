@@ -127,4 +127,4 @@
           (switch-to-buffer-other-frame "*grep*"))
         (error "Buffer not backed by file"))))
 
-(global-set-key (kbd "C-#") 'rgrep-token-under-point-in-project-root-dir)
+(global-set-key (kbd "C-'") 'rgrep-token-under-point-in-project-root-dir)
