@@ -14,7 +14,9 @@
              window-number
              cider
              magit
-             xscheme))
+             xscheme
+             lua-mode
+             wgrep))
   (when (not (package-installed-p p))
     (package-install p)))
 
@@ -50,6 +52,10 @@
       (cons '("SConstruct" . python-mode) auto-mode-alist))
 (setq auto-mode-alist
       (cons '("SConscript" . python-mode) auto-mode-alist))
+
+;; OpenCL
+(setq auto-mode-alist
+      (cons '("\.cl$" . c-mode) auto-mode-alist))
 
 ;; c++
 (setq-default indent-tabs-mode nil)
@@ -116,15 +122,19 @@
             (error "No .git directory above")
             (find-git-root parent)))))
 
+(defun file-extensions ()
+  (if (equal 'c++-mode (buffer-local-value 'major-mode (current-buffer)))
+      "*pp"
+    (concat "*." (file-name-extension (buffer-file-name)))))
+
 (defun rgrep-token-under-point-in-project-root-dir ()
   (interactive)
-  (let ((file-name (buffer-file-name)))
-    (if file-name
-        (progn
-          (rgrep (current-word)
-                 (concat "*." (file-name-extension file-name))
-                 (find-git-root))
-          (switch-to-buffer-other-frame "*grep*"))
-        (error "Buffer not backed by file"))))
+  (if (buffer-file-name)
+      (progn
+        (rgrep (current-word)
+               (file-extensions)
+               (find-git-root))
+        (switch-to-buffer-other-frame "*grep*"))
+    (error "Buffer not backed by file")))
 
 (global-set-key (kbd "C-'") 'rgrep-token-under-point-in-project-root-dir)
