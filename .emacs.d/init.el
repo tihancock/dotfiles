@@ -16,6 +16,7 @@
              magit
              xscheme
              lua-mode
+             ag
              wgrep))
   (when (not (package-installed-p p))
     (package-install p)))
@@ -23,6 +24,9 @@
 (tool-bar-mode -1)
 (menu-bar-mode -1)
 (scroll-bar-mode -1)
+(setq ring-bell-function 'ignore)
+
+(show-paren-mode 1)
 
 (load-library "xscheme")
 
@@ -41,6 +45,17 @@
 (global-set-key [(control down)] 'end-of-buffer)
 (global-set-key (kbd "C->") 'mc/mark-next-like-this)
 (global-set-key (kbd "C-<") 'mc/unmark-next-like-this)
+(global-set-key (kbd "C-*") 'mc/mark-all-like-this)
+
+(setq read-file-name-completion-ignore-case t)
+(setq read-buffer-completion-ignore-case t)
+
+(defun get-me-magit ()
+  (interactive)
+  (magit-status)
+  (magit-refresh))
+
+(global-set-key (kbd "C-q") 'get-me-magit)
 
 (setq c-basic-offset 4)
 
@@ -137,4 +152,12 @@
         (switch-to-buffer-other-frame "*grep*"))
     (error "Buffer not backed by file")))
 
-(global-set-key (kbd "C-'") 'rgrep-token-under-point-in-project-root-dir)
+(defun ag-token-under-point-in-project-root-dir ()
+  (interactive)
+  (ag-project (current-word)))
+
+(global-set-key (kbd "C-'") 'ag-token-under-point-in-project-root-dir)
+(global-set-key (kbd "C-#") 'ag-project)
+(setq ag-highlight-search t)
+
+(setq read-file-name-completion-ignore-case)
