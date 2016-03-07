@@ -156,3 +156,6 @@ _completemarks() {
 }
 
 complete -F _completemarks jump unmark
+export PROMPT_COMMAND='history -a'
+export HISTSIZE=99999999
+export HISTFILESIZE=9999999999
