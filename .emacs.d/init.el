@@ -55,7 +55,7 @@
   (magit-status)
   (magit-refresh))
 
-(global-set-key (kbd "C-q") 'get-me-magit)
+(global-set-key [f12] 'get-me-magit)
 
 (setq c-basic-offset 4)
 
@@ -161,3 +161,11 @@
 (setq ag-highlight-search t)
 
 (setq read-file-name-completion-ignore-case)
+(put 'upcase-region 'disabled nil)
+
+(defun cout-token-under-point ()
+  (interactive)
+  (let ((w (buffer-substring (mark) (point))))
+    (end-of-line)
+    (newline-and-indent)
+    (insert (concat "cout << \"" w ": \" << " w " << endl;"))))
