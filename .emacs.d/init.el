@@ -12,7 +12,6 @@
 (dolist (p '(multiple-cursors
              paredit
              clojure-mode
-             clj-refactor
              window-number
              cider
              magit
@@ -101,12 +100,6 @@
  (lambda()
    (define-key org-mode-map 
      (kbd "<f5>") 'org-export-as-pdf)))
-
-;; clj-refactor
-(require 'clj-refactor)
-(add-hook 'clojure-mode-hook (lambda ()
-                               (clj-refactor-mode 1)
-                               (cljr-add-keybindings-with-prefix "C-c C-r")))
 
 (setq locale-coding-system 'utf-8)
 (set-terminal-coding-system 'utf-8)
