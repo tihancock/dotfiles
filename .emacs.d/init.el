@@ -167,3 +167,10 @@
     (insert (concat "cout << \"" w ": \" << " w " << endl;"))))
 
 (add-hook 'before-save-hook 'delete-trailing-whitespace)
+
+(defun delete-horizontal-space-forward () ; adapted from `delete-horizontal-space'
+      "*Delete all spaces and tabs after point."
+      (interactive "*")
+      (delete-region (point) (progn (skip-chars-forward " \t") (point))))
+
+(global-set-key [(super \\)] 'delete-horizontal-space-forward)
