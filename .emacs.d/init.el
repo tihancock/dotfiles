@@ -165,3 +165,5 @@
     (end-of-line)
     (newline-and-indent)
     (insert (concat "cout << \"" w ": \" << " w " << endl;"))))
+
+(add-hook 'before-save-hook 'delete-trailing-whitespace)
