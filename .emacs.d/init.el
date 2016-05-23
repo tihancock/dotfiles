@@ -96,10 +96,10 @@
 (setq org-agenda-files '("~/org/todo.org"))
 (setq org-mobile-inbox-for-pull "~/org/from-mobile.org")
 
-(add-hook 
+(add-hook
  'org-mode-hook
  (lambda()
-   (define-key org-mode-map 
+   (define-key org-mode-map
      (kbd "<f5>") 'org-export-as-pdf)))
 
 (setq locale-coding-system 'utf-8)
