@@ -18,7 +18,8 @@
              xscheme
              lua-mode
              ag
-             wgrep))
+             wgrep
+             wgrep-ag))
   (when (not (package-installed-p p))
     (package-install p)))
 
