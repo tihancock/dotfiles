@@ -19,7 +19,8 @@
              lua-mode
              ag
              wgrep
-             wgrep-ag))
+             wgrep-ag
+             ws-trim))
   (when (not (package-installed-p p))
     (package-install p)))
 
@@ -33,6 +34,9 @@
 (load-library "xscheme")
 
 (require 'font-lock)
+
+(require 'ws-trim)
+(global-ws-trim-mode t)
 
 (pending-delete-mode 1)
 
@@ -49,6 +53,8 @@
 (global-set-key (kbd "C-<") 'mc/unmark-next-like-this)
 (global-set-key (kbd "C-*") 'mc/mark-all-like-this)
 
+(setq require-final-newline t)
+
 (setq read-file-name-completion-ignore-case t)
 (setq read-buffer-completion-ignore-case t)
 
@@ -58,6 +64,7 @@
   (magit-refresh))
 
 (global-set-key [f12] 'get-me-magit)
+(global-set-key [f11] 'magit-blame)
 
 (setq c-basic-offset 4)
 
@@ -165,8 +172,6 @@
     (end-of-line)
     (newline-and-indent)
     (insert (concat "cout << \"" w ": \" << " w " << endl;"))))
-
-(add-hook 'before-save-hook 'delete-trailing-whitespace)
 
 (defun delete-horizontal-space-forward () ; adapted from `delete-horizontal-space'
       "*Delete all spaces and tabs after point."
