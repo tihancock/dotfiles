@@ -20,7 +20,8 @@
              ag
              wgrep
              wgrep-ag
-             ws-trim))
+             ws-trim
+             csv-mode))
   (when (not (package-installed-p p))
     (package-install p)))
 
