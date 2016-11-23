@@ -59,6 +59,8 @@
 (setq read-file-name-completion-ignore-case t)
 (setq read-buffer-completion-ignore-case t)
 
+(setq line-number-display-limit nil)
+
 (defun get-me-magit ()
   (interactive)
   (magit-status)
