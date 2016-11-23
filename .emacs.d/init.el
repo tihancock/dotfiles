@@ -55,11 +55,10 @@
 (global-set-key (kbd "C-*") 'mc/mark-all-like-this)
 
 (setq require-final-newline t)
-
 (setq read-file-name-completion-ignore-case t)
 (setq read-buffer-completion-ignore-case t)
-
 (setq line-number-display-limit nil)
+(setq read-file-name-completion-ignore-case t)
 
 (defun get-me-magit ()
   (interactive)
