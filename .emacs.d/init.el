@@ -90,10 +90,11 @@
 
 ;; cider
 (add-hook 'clojure-mode-hook 'paredit-mode)
-(add-hook 'cider-mode-hook 'cider-turn-on-eldoc-mode)
+(add-hook 'cider-mode-hook 'eldoc-mode)
 (setq nrepl-hide-special-buffers t)
 (setq cider-repl-pop-to-buffer-on-connect nil)
 (setq cider-show-error-buffer nil)
+(setq cider-repl-display-help-banner nil)
 
 ;; org
 (require 'org-habit)
