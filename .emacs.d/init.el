@@ -166,7 +166,6 @@
 (global-set-key (kbd "C-#") 'ag-project)
 (setq ag-highlight-search t)
 
-(setq read-file-name-completion-ignore-case)
 (put 'upcase-region 'disabled nil)
 
 (defun cout-token-under-point ()
