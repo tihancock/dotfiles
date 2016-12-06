@@ -160,7 +160,7 @@
 
 (defun ag-token-under-point-in-project-root-dir ()
   (interactive)
-  (ag-project (current-word)))
+  (ag-project-files (current-word) (list :file-regex "^((?!test).)*.clj")))
 
 (global-set-key (kbd "C-'") 'ag-token-under-point-in-project-root-dir)
 (global-set-key (kbd "C-#") 'ag-project)
