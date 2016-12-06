@@ -12,6 +12,7 @@
 (dolist (p '(multiple-cursors
              paredit
              clojure-mode
+             clj-refactor
              window-number
              cider
              magit
@@ -89,7 +90,15 @@
 (setq indent-line-function 'insert-tab)
 
 ;; cider
-(add-hook 'clojure-mode-hook 'paredit-mode)
+(require 'clj-refactor)
+
+(defun clojure-hook ()
+  (clj-refactor-mode 1)
+  (yas-minor-mode 1)
+  (cljr-add-keybindings-with-prefix "C-c C-m")
+  (paredit-mode 1))
+
+(add-hook 'clojure-mode-hook 'clojure-hook)
 (add-hook 'cider-mode-hook 'eldoc-mode)
 (setq nrepl-hide-special-buffers t)
 (setq cider-repl-pop-to-buffer-on-connect nil)
