@@ -74,6 +74,11 @@
 (require 'window-number)
 (window-number-meta-mode)
 
+;; yas
+(when (require 'yasnippet nil 'noerror)
+  (progn
+    (yas/load-directory "~/.emacs.d/snippets")))
+
 ;; scons
 (setq auto-mode-alist
       (cons '("SConstruct" . python-mode) auto-mode-alist))
