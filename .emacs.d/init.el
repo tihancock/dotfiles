@@ -22,7 +22,8 @@
              wgrep
              wgrep-ag
              ws-trim
-             csv-mode))
+             csv-mode
+             web-mode))
   (when (not (package-installed-p p))
     (package-install p)))
 
@@ -73,6 +74,9 @@
 
 (require 'window-number)
 (window-number-meta-mode)
+
+;; web-mode
+(add-to-list 'auto-mode-alist '("\\.mustache\\'" . web-mode))
 
 ;; yas
 (when (require 'yasnippet nil 'noerror)
