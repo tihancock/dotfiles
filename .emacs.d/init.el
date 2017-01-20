@@ -32,6 +32,8 @@
 (scroll-bar-mode -1)
 (blink-cursor-mode 0)
 (setq ring-bell-function 'ignore)
+(setq confirm-kill-emacs 'yes-or-no-p)
+(global-unset-key [(control z)])
 
 (show-paren-mode 1)
 
@@ -70,13 +72,21 @@
 
 (global-set-key [f12] 'get-me-magit)
 (global-set-key [f11] 'magit-blame)
+(global-set-key [f10] (lambda () (interactive) (find-file "~/org/todo.org")))
 
-(setq c-basic-offset 4)
+(setq c-basic-offset 2)
+(setq js-indent-level 2)
 
 (require 'window-number)
 (window-number-meta-mode)
 
 ;; web-mode
+(defun my-web-mode-hook ()
+  "Hooks for Web mode."
+  (setq web-mode-markup-indent-offset 2)
+  (setq web-mode-css-indent-offset 2)
+  (setq web-mode-code-indent-offset 2))
+(add-hook 'web-mode-hook  'my-web-mode-hook)
 (add-to-list 'auto-mode-alist '("\\.mustache\\'" . web-mode))
 
 ;; yas
@@ -112,8 +122,10 @@
 (add-hook 'cider-mode-hook 'eldoc-mode)
 (setq nrepl-hide-special-buffers t)
 (setq cider-repl-pop-to-buffer-on-connect nil)
-(setq cider-show-error-buffer nil)
+(setq cider-show-error-buffer t)
 (setq cider-repl-display-help-banner nil)
+(setq cider-repl-history-file "~/.cider-history")
+(setq cider-repl-history-size 9999999)
 
 ;; org
 (require 'org-habit)
@@ -199,4 +211,4 @@
       (interactive "*")
       (delete-region (point) (progn (skip-chars-forward " \t") (point))))
 
-(global-set-key [(super \\)] 'delete-horizontal-space-forward)
+(global-set-key [(meta z)] 'delete-horizontal-space-forward)
