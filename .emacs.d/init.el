@@ -23,7 +23,8 @@
              wgrep-ag
              ws-trim
              csv-mode
-             web-mode))
+             web-mode
+             es-mode))
   (when (not (package-installed-p p))
     (package-install p)))
 
@@ -89,6 +90,9 @@
 (add-hook 'web-mode-hook  'my-web-mode-hook)
 (add-to-list 'auto-mode-alist '("\\.mustache\\'" . web-mode))
 
+;; es-mode
+(add-to-list 'auto-mode-alist '("\\.es$" . es-mode))
+(setq es-always-pretty-print t)
 ;; yas
 (when (require 'yasnippet nil 'noerror)
   (progn
@@ -126,6 +130,14 @@
 (setq cider-repl-display-help-banner nil)
 (setq cider-repl-history-file "~/.cider-history")
 (setq cider-repl-history-size 9999999)
+(setq cider-prompt-for-symbol nil)
+
+(defun take-this-to-the-repl ()
+  (interactive)
+  (progn
+    (cider-debug-mode-send-reply (format "{:response :eval :code (intern 'dev 'cider-debug-out %s)}" (current-word)))
+    (cider-switch-to-repl-buffer)))
+(global-set-key [f9] 'take-this-to-the-repl)
 
 ;; org
 (require 'org-habit)
