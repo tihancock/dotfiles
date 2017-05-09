@@ -4,7 +4,7 @@
 (add-to-list 'package-archives
              '("marmalade" . "http://marmalade-repo.org/packages/") t)
 (add-to-list 'package-archives
-             '("melpa" . "https://melpa.org/packages/"))
+             '("melpa-stable" . "https://stable.melpa.org/packages/"))
 (package-initialize)
 
 (when (not package-archive-contents) (package-refresh-contents))
@@ -35,6 +35,7 @@
 (setq ring-bell-function 'ignore)
 (setq confirm-kill-emacs 'yes-or-no-p)
 (global-unset-key [(control z)])
+(savehist-mode 1)
 
 (show-paren-mode 1)
 
@@ -135,7 +136,7 @@
 (defun take-this-to-the-repl ()
   (interactive)
   (progn
-    (cider-debug-mode-send-reply (format "{:response :eval :code (intern 'dev 'cider-debug-out %s)}" (current-word)))
+    (cider-debug-mode-send-reply (format "{:response :eval :code (intern 'dev '%s %s)}" (current-word) (current-word)))
     (cider-switch-to-repl-buffer)))
 (global-set-key [f9] 'take-this-to-the-repl)
 
