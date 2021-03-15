@@ -1,10 +1,16 @@
 (load-theme 'dark-laptop t)
 
 (require 'package)
-(add-to-list 'package-archives
-             '("marmalade" . "http://marmalade-repo.org/packages/") t)
+
+(setq package-archive-priorities
+      '(("melpa-stable" . 20)
+        ("marmalade" . 20)
+        ("melpa" . 0)))
+
 (add-to-list 'package-archives
              '("melpa-stable" . "https://stable.melpa.org/packages/"))
+(add-to-list 'package-archives
+             '("melpa" . "https://melpa.org/packages/"))
 (package-initialize)
 
 (when (not package-archive-contents) (package-refresh-contents))
@@ -12,39 +18,58 @@
 (dolist (p '(multiple-cursors
              paredit
              clojure-mode
-             clj-refactor
              window-number
              cider
              magit
-             xscheme
-             lua-mode
              ag
-             wgrep
              wgrep-ag
-             ws-trim
+             ws-butler
              csv-mode
              web-mode
-             es-mode))
+             es-mode
+             json-mode
+             restclient
+             request
+             beacon
+             fullframe
+             use-package))
   (when (not (package-installed-p p))
     (package-install p)))
 
+(setq inhibit-startup-screen t)
+(setq make-backup-files nil)
+(setq auto-save-default nil)
 (tool-bar-mode -1)
 (menu-bar-mode -1)
 (scroll-bar-mode -1)
 (blink-cursor-mode 0)
+(beacon-mode 1)
 (setq ring-bell-function 'ignore)
 (setq confirm-kill-emacs 'yes-or-no-p)
 (global-unset-key [(control z)])
 (savehist-mode 1)
+(setq-default major-mode 'text-mode)
+(setq explicit-shell-file-name "/bin/bash")
+(setq byte-compile-warnings '(cl-functions))
+
+(require 'recentf)
+(setq recentf-max-saved-items 200
+      recentf-max-menu-items 15)
+(recentf-mode +1)
+(global-set-key [f4] 'recentf-open-files)
 
 (show-paren-mode 1)
 
-(load-library "xscheme")
+;; dabbrev-completion
+(global-unset-key (kbd "M-/"))
+(global-set-key (kbd "C-M-S-l") 'dabbrev-expand)
+
+(global-set-key (kbd "C-M-S-<tab>") 'clojure-align)
 
 (require 'font-lock)
 
-(require 'ws-trim)
-(global-ws-trim-mode t)
+(require 'ws-butler)
+(add-hook 'prog-mode-hook #'ws-butler-mode)
 
 (pending-delete-mode 1)
 
@@ -60,6 +85,12 @@
 (global-set-key (kbd "C->") 'mc/mark-next-like-this)
 (global-set-key (kbd "C-<") 'mc/unmark-next-like-this)
 (global-set-key (kbd "C-*") 'mc/mark-all-like-this)
+(global-set-key (kbd "C-c l") 'org-store-link)
+(global-set-key (kbd "C-z") 'isearch-forward-symbol-at-point)
+
+(require 'dired)
+(define-key dired-mode-map [(control left)] 'dired-up-directory)
+(define-key dired-mode-map [(control right)] 'dired-find-file)
 
 (setq require-final-newline t)
 (setq read-file-name-completion-ignore-case t)
@@ -72,9 +103,12 @@
   (magit-status)
   (magit-refresh))
 
-(global-set-key [f12] 'get-me-magit)
-(global-set-key [f11] 'magit-blame)
-(global-set-key [f10] (lambda () (interactive) (find-file "~/org/todo.org")))
+(global-set-key [f5] (lambda () (interactive) (find-file "~/org/todo.org")))
+(global-set-key [f6] 'get-me-magit)
+(global-set-key [f7] 'magit-blame)
+
+(require 'fullframe)
+(fullframe get-me-magit magit-mode-quit-window)
 
 (setq c-basic-offset 2)
 (setq js-indent-level 2)
@@ -82,63 +116,37 @@
 (require 'window-number)
 (window-number-meta-mode)
 
-;; web-mode
-(defun my-web-mode-hook ()
-  "Hooks for Web mode."
-  (setq web-mode-markup-indent-offset 2)
-  (setq web-mode-css-indent-offset 2)
-  (setq web-mode-code-indent-offset 2))
-(add-hook 'web-mode-hook  'my-web-mode-hook)
-(add-to-list 'auto-mode-alist '("\\.mustache\\'" . web-mode))
+(setq smerge-command-prefix "\C-c.")
 
-;; es-mode
-(add-to-list 'auto-mode-alist '("\\.es$" . es-mode))
-(setq es-always-pretty-print t)
-;; yas
-(when (require 'yasnippet nil 'noerror)
-  (progn
-    (yas/load-directory "~/.emacs.d/snippets")))
-
-;; scons
-(setq auto-mode-alist
-      (cons '("SConstruct" . python-mode) auto-mode-alist))
-(setq auto-mode-alist
-      (cons '("SConscript" . python-mode) auto-mode-alist))
-
-;; OpenCL
-(setq auto-mode-alist
-      (cons '("\.cl$" . c-mode) auto-mode-alist))
-
-;; c++
-(setq-default indent-tabs-mode nil)
-(setq-default tab-width 4)
-(setq indent-line-function 'insert-tab)
-
-;; cider
-(require 'clj-refactor)
-
-(defun clojure-hook ()
-  (clj-refactor-mode 1)
-  (yas-minor-mode 1)
-  (cljr-add-keybindings-with-prefix "C-c C-m")
-  (paredit-mode 1))
+(setq org-babel-clojure-backend 'cider)
+(require 'cider)
 
 (add-hook 'clojure-mode-hook 'clojure-hook)
 (add-hook 'cider-mode-hook 'eldoc-mode)
 (setq nrepl-hide-special-buffers t)
-(setq cider-repl-pop-to-buffer-on-connect nil)
+(setq cider-repl-pop-to-buffer-on-connect t)
 (setq cider-show-error-buffer 'except-in-repl)
 (setq cider-repl-display-help-banner nil)
 (setq cider-repl-history-file "~/.cider-history")
 (setq cider-repl-history-size 9999999)
 (setq cider-prompt-for-symbol nil)
+(setq cider-repl-use-pretty-printing t)
+(setq cider-inject-dependencies-at-jack-in nil)
+(setq cider-print-quota (* 10 1024))
 
 (defun take-this-to-the-repl ()
   (interactive)
   (progn
-    (cider-debug-mode-send-reply (format "{:response :eval :code (intern 'dev '%s %s)}" (current-word) (current-word)))
+    (cider-debug-mode-send-reply (format "{:response :eval :code (intern (-> *ns* str symbol) '%s %s)}" (current-word) (current-word)))
     (cider-switch-to-repl-buffer)))
 (global-set-key [f9] 'take-this-to-the-repl)
+
+(defun pprint-this-in-the-repl ()
+  (interactive)
+  (progn
+    (cider-debug-mode-send-reply (format "{:response :eval :code (clojure.pprint/pprint %s)}" (read-string "local to pprint: ")))
+    (cider-switch-to-repl-buffer)))
+(global-set-key (kbd "C-x p p") 'pprint-this-in-the-repl)
 
 ;; org
 (require 'org-habit)
@@ -146,82 +154,57 @@
 (global-set-key (kbd "C-c a") 'org-archive-subtree-default)
 
 (setq org-directory "~/org")
-(setq org-mobile-directory "~/Dropbox/mobileorg")
 (setq org-agenda-files '("~/org/todo.org"))
-(setq org-mobile-inbox-for-pull "~/org/from-mobile.org")
-
-(add-hook
- 'org-mode-hook
- (lambda()
-   (define-key org-mode-map
-     (kbd "<f5>") 'org-export-as-pdf)))
 
 (setq locale-coding-system 'utf-8)
 (set-terminal-coding-system 'utf-8)
 (set-keyboard-coding-system 'utf-8)
 (set-selection-coding-system 'utf-8)
 (prefer-coding-system 'utf-8)
-(custom-set-variables
- ;; custom-set-variables was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- '(inhibit-startup-screen t))
-(custom-set-faces
- ;; custom-set-faces was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- )
-
-(eval-after-load "grep"
-  '(grep-compute-defaults))
-
-(defun find-git-root (&optional dir)
-  (interactive)
-  (unless dir (setq dir (expand-file-name (file-name-directory (buffer-file-name)))))
-  (let ((parent (expand-file-name ".." dir)))
-    (if (file-exists-p (expand-file-name ".git" dir))
-        dir
-        (if (equal dir "/")
-            (error "No .git directory above")
-            (find-git-root parent)))))
-
-(defun file-extensions ()
-  (if (equal 'c++-mode (buffer-local-value 'major-mode (current-buffer)))
-      "*pp"
-    (concat "*." (file-name-extension (buffer-file-name)))))
-
-(defun rgrep-token-under-point-in-project-root-dir ()
-  (interactive)
-  (if (buffer-file-name)
-      (progn
-        (rgrep (current-word)
-               (file-extensions)
-               (find-git-root))
-        (switch-to-buffer-other-frame "*grep*"))
-    (error "Buffer not backed by file")))
 
 (defun ag-token-under-point-in-project-root-dir ()
   (interactive)
-  (ag-project-files (current-word) (list :file-regex "^((?!test).)*.clj")))
+  (ag-project-files (current-word) (list :file-regex "*.clj")))
 
-(global-set-key (kbd "C-'") 'ag-token-under-point-in-project-root-dir)
-(global-set-key (kbd "C-#") 'ag-project)
+(global-set-key (kbd "S-C-M-j") 'ag-token-under-point-in-project-root-dir)
+(global-set-key (kbd "S-C-M-k") 'ag-project)
 (setq ag-highlight-search t)
 
 (put 'upcase-region 'disabled nil)
-
-(defun cout-token-under-point ()
-  (interactive)
-  (let ((w (buffer-substring (mark) (point))))
-    (end-of-line)
-    (newline-and-indent)
-    (insert (concat "cout << \"" w ": \" << " w " << endl;"))))
+(put 'downcase-region 'disabled nil)
 
 (defun delete-horizontal-space-forward () ; adapted from `delete-horizontal-space'
       "*Delete all spaces and tabs after point."
       (interactive "*")
       (delete-region (point) (progn (skip-chars-forward " \t") (point))))
 
+(global-set-key (kbd "C-M-:") (lambda () (interactive) (fixup-whitespace)))
+
 (global-set-key [(meta z)] 'delete-horizontal-space-forward)
+
+(setq sql-input-ring-file-name (expand-file-name ".sql-history" user-emacs-directory))
+
+(add-hook 'kill-buffer-hook 'comint-write-input-ring)
+
+(org-babel-do-load-languages
+ 'org-babel-load-languages
+ '((elasticsearch . t)))
+
+(let ((company-settings "~/.emacs-company.el"))
+ (when (file-exists-p company-settings)
+   (load-file company-settings)))
+
+(custom-set-variables
+ ;; custom-set-variables was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ '(package-selected-packages
+   (quote
+    (yasnippet yaml-mode ws-trim window-number wgrep-ag web-mode w3m use-package transient swiper spotify slime sayid restclient request projectile paredit-everywhere multiple-cursors lua-mode lsp-mode json-mode inflections hydra fullframe forge es-mode edn csv-mode clojure-cheatsheet beacon ag))))
+(custom-set-faces
+ ;; custom-set-faces was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ )
