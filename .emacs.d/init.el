@@ -72,6 +72,7 @@
 (add-hook 'prog-mode-hook #'ws-butler-mode)
 
 (pending-delete-mode 1)
+(paredit-mode)
 
 (global-set-key [(meta g)] 'goto-line)
 (global-set-key [(home)] 'beginning-of-buffer)
@@ -131,7 +132,6 @@
 (setq cider-repl-history-size 9999999)
 (setq cider-prompt-for-symbol nil)
 (setq cider-repl-use-pretty-printing t)
-(setq cider-inject-dependencies-at-jack-in nil)
 (setq cider-print-quota (* 10 1024))
 
 (defun take-this-to-the-repl ()
