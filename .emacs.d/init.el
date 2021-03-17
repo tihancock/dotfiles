@@ -122,7 +122,7 @@
 (setq org-babel-clojure-backend 'cider)
 (require 'cider)
 
-(add-hook 'clojure-mode-hook 'clojure-hook)
+(add-hook 'clojure-mode-hook #'enable-paredit-mode)
 (add-hook 'cider-mode-hook 'eldoc-mode)
 (setq nrepl-hide-special-buffers t)
 (setq cider-repl-pop-to-buffer-on-connect t)
