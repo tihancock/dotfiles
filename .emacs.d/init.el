@@ -38,6 +38,7 @@
 
 (setq inhibit-startup-screen t)
 (setq make-backup-files nil)
+(setq create-lockfiles nil)
 (setq auto-save-default nil)
 (tool-bar-mode -1)
 (menu-bar-mode -1)
@@ -104,9 +105,9 @@
   (magit-status)
   (magit-refresh))
 
-(global-set-key [f5] (lambda () (interactive) (find-file "~/org/todo.org")))
+(global-set-key [f9] (lambda () (interactive) (find-file "~/org/todo.org")))
 (global-set-key [f6] 'get-me-magit)
-(global-set-key [f7] 'magit-blame)
+(global-set-key [f5] 'magit-blame)
 
 (require 'fullframe)
 (fullframe get-me-magit magit-mode-quit-window)
