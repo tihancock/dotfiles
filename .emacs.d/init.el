@@ -78,10 +78,6 @@
 
 (show-paren-mode 1)
 
-;; dabbrev-completion
-(global-unset-key (kbd "M-/"))
-(global-set-key (kbd "C-M-S-l") 'dabbrev-expand)
-
 (global-set-key (kbd "C-M-S-<tab>") 'clojure-align)
 
 (require 'font-lock)
@@ -189,10 +185,10 @@
 
 (defun ag-token-under-point-in-project-root-dir ()
   (interactive)
-  (ag-project-files (current-word) (list :file-regex "*.clj")))
+  (ag-project-files (current-word)))
 
-(global-set-key (kbd "S-C-M-j") 'ag-token-under-point-in-project-root-dir)
-(global-set-key (kbd "S-C-M-k") 'ag-project)
+(global-set-key (kbd "C-'") 'ag-token-under-point-in-project-root-dir)
+(global-set-key (kbd "C-#") 'ag-project)
 (setq ag-highlight-search t)
 
 (put 'upcase-region 'disabled nil)
@@ -203,7 +199,8 @@
       (interactive "*")
       (delete-region (point) (progn (skip-chars-forward " \t") (point))))
 
-(global-set-key (kbd "C-M-:") (lambda () (interactive) (fixup-whitespace)))
+(global-set-key (kbd "C-?")
+		(lambda () (interactive) (fixup-whitespace)))
 
 (global-set-key [(meta z)] 'delete-horizontal-space-forward)
 
@@ -215,6 +212,7 @@
  'org-babel-load-languages
  '((elasticsearch . t)))
 
+;; secrets etc
 (let ((company-settings "~/.emacs-company.el"))
  (when (file-exists-p company-settings)
    (load-file company-settings)))
