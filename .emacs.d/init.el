@@ -32,7 +32,8 @@
              request
              beacon
              fullframe
-             use-package))
+             use-package
+	     smartparens))
   (when (not (package-installed-p p))
     (package-install p)))
 
@@ -53,11 +54,27 @@
 (setq explicit-shell-file-name "/bin/bash")
 (setq byte-compile-warnings '(cl-functions))
 
+(setq ido-enable-flex-matching t)
+(setq ido-everywhere t)
+(ido-mode 1)
+(setq ido-create-new-buffer 'always)
+(defadvice ido-switch-buffer (around no-confirmation activate)
+  (let ((confirm-nonexistent-file-or-buffer nil))
+    ad-do-it))
+
 (require 'recentf)
 (setq recentf-max-saved-items 200
       recentf-max-menu-items 15)
-(recentf-mode +1)
-(global-set-key [f4] 'recentf-open-files)
+(global-set-key (kbd "C-x C-r") 'ido-recentf-open)
+(recentf-mode t)
+
+(defun ido-recentf-open ()
+  "Use `ido-completing-read' to \\[find-file] a recent file"
+  (interactive)
+  (if (find-file (ido-completing-read "Find recent file: " recentf-list))
+      (message "Opening file...")
+    (message "Aborting")))
+
 
 (show-paren-mode 1)
 
@@ -89,6 +106,7 @@
 (global-set-key (kbd "C-*") 'mc/mark-all-like-this)
 (global-set-key (kbd "C-c l") 'org-store-link)
 (global-set-key (kbd "C-z") 'isearch-forward-symbol-at-point)
+(global-set-key (kbd "s-k") 'kill-this-buffer)
 
 (require 'dired)
 (define-key dired-mode-map [(control left)] 'dired-up-directory)
@@ -100,20 +118,26 @@
 (setq line-number-display-limit nil)
 (setq read-file-name-completion-ignore-case t)
 
+(defun todo ()
+  (interactive)
+  (if (equal (buffer-name) "todo.org")
+      (quit-window)
+    (find-file "~/org/todo.org")))
+
+(require 'magit)
 (defun get-me-magit ()
   (interactive)
   (magit-status)
   (magit-refresh))
 
-(global-set-key [f9] (lambda () (interactive) (find-file "~/org/todo.org")))
-(global-set-key [f6] 'get-me-magit)
+(global-set-key [f4] 'todo)
 (global-set-key [f5] 'magit-blame)
+(global-set-key [f6] 'get-me-magit)
 
 (require 'fullframe)
 (fullframe get-me-magit magit-mode-quit-window)
 
 (setq c-basic-offset 2)
-(setq js-indent-level 2)
 
 (require 'window-number)
 (window-number-meta-mode)
@@ -195,14 +219,16 @@
  (when (file-exists-p company-settings)
    (load-file company-settings)))
 
+(require 'smartparens-config)
+(add-hook 'prog-mode-hook 'smartparens-mode)
+
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  '(package-selected-packages
-   (quote
-    (yasnippet yaml-mode ws-trim window-number wgrep-ag web-mode w3m use-package transient swiper spotify slime sayid restclient request projectile paredit-everywhere multiple-cursors lua-mode lsp-mode json-mode inflections hydra fullframe forge es-mode edn csv-mode clojure-cheatsheet beacon ag))))
+   '(smartparens smart-parens auto-complete yasnippet yaml-mode ws-trim window-number wgrep-ag web-mode w3m use-package transient swiper spotify slime sayid restclient request projectile paredit-everywhere multiple-cursors lua-mode lsp-mode json-mode inflections hydra fullframe forge es-mode edn csv-mode clojure-cheatsheet beacon ag)))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
