@@ -185,10 +185,10 @@
 
 (defun ag-token-under-point-in-project-root-dir ()
   (interactive)
-  (ag-project-files (current-word)))
+  (ag-project (current-word)))
 
 (global-set-key (kbd "C-'") 'ag-token-under-point-in-project-root-dir)
-(global-set-key (kbd "C-#") 'ag-project)
+(global-set-key (kbd "C-~") 'ag-project)
 (setq ag-highlight-search t)
 
 (put 'upcase-region 'disabled nil)
