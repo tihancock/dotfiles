@@ -51,7 +51,7 @@
 (global-unset-key [(control z)])
 (savehist-mode 1)
 (setq-default major-mode 'text-mode)
-(setq explicit-shell-file-name "/bin/bash")
+(setq default-directory "~")
 (setq byte-compile-warnings '(cl-functions))
 
 (setq ido-enable-flex-matching t)
@@ -79,6 +79,25 @@
 (show-paren-mode 1)
 
 (global-set-key (kbd "C-M-S-<tab>") 'clojure-align)
+
+;; window management
+(global-set-key (kbd "s-1") 'delete-other-windows)
+(global-set-key (kbd "s-2") (lambda ()
+			      (interactive)
+			      (delete-other-windows)
+			      (split-window-below)))
+(global-set-key (kbd "s-3") (lambda ()
+			      (interactive)
+			      (delete-other-windows)
+			      (split-window-right)))
+(global-set-key (kbd "s-4") (lambda ()
+			      (interactive)
+			      (delete-other-windows)
+			      (split-window-right)
+			      (window-number-select 2)
+			      (split-window-below)
+			      (window-number-select 1)
+			      (split-window-below)))
 
 (require 'font-lock)
 
