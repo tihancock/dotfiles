@@ -58,6 +58,7 @@
 (setq recentf-max-saved-items 200
       recentf-max-menu-items 15)
 (recentf-mode t)
+(global-set-key "\C-x\ \C-r" 'recentf-open-files)
 
 (show-paren-mode 1)
 
