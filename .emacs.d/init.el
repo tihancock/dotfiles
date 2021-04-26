@@ -54,27 +54,10 @@
 (setq default-directory "~")
 (setq byte-compile-warnings '(cl-functions))
 
-(setq ido-enable-flex-matching t)
-(setq ido-everywhere t)
-(ido-mode 1)
-(setq ido-create-new-buffer 'always)
-(defadvice ido-switch-buffer (around no-confirmation activate)
-  (let ((confirm-nonexistent-file-or-buffer nil))
-    ad-do-it))
-
 (require 'recentf)
 (setq recentf-max-saved-items 200
       recentf-max-menu-items 15)
-(global-set-key (kbd "C-x C-r") 'ido-recentf-open)
 (recentf-mode t)
-
-(defun ido-recentf-open ()
-  "Use `ido-completing-read' to \\[find-file] a recent file"
-  (interactive)
-  (if (find-file (ido-completing-read "Find recent file: " recentf-list))
-      (message "Opening file...")
-    (message "Aborting")))
-
 
 (show-paren-mode 1)
 
