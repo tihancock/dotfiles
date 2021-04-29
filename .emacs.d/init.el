@@ -53,6 +53,7 @@
 (setq-default major-mode 'text-mode)
 (setq default-directory "~")
 (setq byte-compile-warnings '(cl-functions))
+(add-to-list 'default-frame-alist '(fullscreen . maximized))
 
 (require 'recentf)
 (setq recentf-max-saved-items 200
@@ -219,6 +220,10 @@
 (let ((company-settings "~/.emacs-company.el"))
  (when (file-exists-p company-settings)
    (load-file company-settings)))
+
+(let ((local-settings "~/.emacs-local.el"))
+ (when (file-exists-p local-settings)
+   (load-file local-settings)))
 
 (require 'smartparens-config)
 (add-hook 'prog-mode-hook 'smartparens-mode)
