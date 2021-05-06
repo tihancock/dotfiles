@@ -54,6 +54,8 @@
 (setq default-directory "~")
 (setq byte-compile-warnings '(cl-functions))
 (add-to-list 'default-frame-alist '(fullscreen . maximized))
+(setq inhibit-x-resources f)
+(setq mac-right-command-modifier 'hyper)
 
 (require 'recentf)
 (setq recentf-max-saved-items 200
