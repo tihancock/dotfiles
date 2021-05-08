@@ -54,7 +54,7 @@
 (setq default-directory "~")
 (setq byte-compile-warnings '(cl-functions))
 (add-to-list 'default-frame-alist '(fullscreen . maximized))
-(setq inhibit-x-resources f)
+(setq inhibit-x-resources nil)
 (setq mac-right-command-modifier 'hyper)
 
 (require 'recentf)
@@ -105,12 +105,18 @@
 (global-set-key [(control right)] 'end-of-line)
 (global-set-key [(control up)] 'beginning-of-buffer)
 (global-set-key [(control down)] 'end-of-buffer)
-(global-set-key (kbd "C->") 'mc/mark-next-like-this)
-(global-set-key (kbd "C-<") 'mc/unmark-next-like-this)
-(global-set-key (kbd "C-*") 'mc/mark-all-like-this)
 (global-set-key (kbd "C-c l") 'org-store-link)
 (global-set-key (kbd "C-z") 'isearch-forward-symbol-at-point)
 (global-set-key (kbd "s-k") 'kill-this-buffer)
+
+;; hyper bindings
+(global-set-key (kbd "H-g") 'mc/mark-next-like-this)
+(global-set-key (kbd "H-b") 'mc/unmark-next-like-this)
+(global-set-key (kbd "H-t") 'mc/mark-all-like-this)
+
+(global-set-key (kbd "H-r") 'recentf-open-files)
+
+(global-set-key (kbd "H-v") 'ag-project)
 
 (require 'dired)
 (define-key dired-mode-map [(control left)] 'dired-up-directory)
