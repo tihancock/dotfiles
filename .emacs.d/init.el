@@ -33,10 +33,15 @@
              beacon
              fullframe
              use-package
-	     smartparens))
+	     smartparens
+	     prettier-js
+	     add-node-modules-path
+	     emmet-mode
+	     exec-path-from-shell))
   (when (not (package-installed-p p))
     (package-install p)))
 
+(exec-path-from-shell-initialize)
 (setq inhibit-startup-screen t)
 (setq make-backup-files nil)
 (setq create-lockfiles nil)
@@ -228,6 +233,19 @@
  'org-babel-load-languages
  '((elasticsearch . t)))
 
+;; js
+(require 'prettier-js)
+
+(add-to-list 'auto-mode-alist '("\\.jsx?$" . web-mode))
+(setq web-mode-content-types-alist '(("jsx" . "\\.js[x]?\\'")))
+
+(defun web-mode-init-prettier-hook ()
+  (add-node-modules-path)
+  (prettier-js-mode))
+
+(add-hook 'web-mode-hook  'web-mode-init-prettier-hook)
+(add-hook 'web-mode-hook  'emmet-mode)
+
 ;; secrets etc
 (let ((company-settings "~/.emacs-company.el"))
  (when (file-exists-p company-settings)
@@ -246,7 +264,7 @@
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  '(package-selected-packages
-   '(smartparens smart-parens auto-complete yasnippet yaml-mode ws-trim window-number wgrep-ag web-mode w3m use-package transient swiper spotify slime sayid restclient request projectile paredit-everywhere multiple-cursors lua-mode lsp-mode json-mode inflections hydra fullframe forge es-mode edn csv-mode clojure-cheatsheet beacon ag)))
+   '(exec-path-from-shell smartparens smart-parens auto-complete yasnippet yaml-mode ws-trim window-number wgrep-ag web-mode w3m use-package transient swiper spotify slime sayid restclient request projectile paredit-everywhere multiple-cursors lua-mode lsp-mode json-mode inflections hydra fullframe forge es-mode edn csv-mode clojure-cheatsheet beacon ag)))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
