@@ -68,6 +68,16 @@
 (recentf-mode t)
 (global-set-key "\C-x\ \C-r" 'recentf-open-files)
 
+(defun word-forward-mark ()
+  (interactive)
+  (if mark-active
+      (forward-word)
+    (progn
+      (mark-word)
+      (exchange-point-and-mark))))
+
+(global-set-key (kbd "C-.") 'word-forward-mark)
+
 (show-paren-mode 1)
 
 (global-set-key (kbd "C-M-S-<tab>") 'clojure-align)
