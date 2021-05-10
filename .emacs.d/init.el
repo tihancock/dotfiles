@@ -76,7 +76,16 @@
       (mark-word)
       (exchange-point-and-mark))))
 
-(global-set-key (kbd "C-.") 'word-forward-mark)
+(defun sexp-forward-mark ()
+  (interactive)
+  (if mark-active
+      (forward-sexp)
+    (progn
+      (mark-sexp)
+      (exchange-point-and-mark))))
+
+(global-set-key (kbd "M-p") 'word-forward-mark)
+(global-set-key (kbd "C-M-p") 'sexp-forward-mark)
 
 (show-paren-mode 1)
 
@@ -274,7 +283,7 @@
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  '(package-selected-packages
-   '(exec-path-from-shell smartparens smart-parens auto-complete yasnippet yaml-mode ws-trim window-number wgrep-ag web-mode w3m use-package transient swiper spotify slime sayid restclient request projectile paredit-everywhere multiple-cursors lua-mode lsp-mode json-mode inflections hydra fullframe forge es-mode edn csv-mode clojure-cheatsheet beacon ag)))
+   '(thing-cmds exec-path-from-shell smartparens smart-parens auto-complete yasnippet yaml-mode ws-trim window-number wgrep-ag web-mode w3m use-package transient swiper spotify slime sayid restclient request projectile paredit-everywhere multiple-cursors lua-mode lsp-mode json-mode inflections hydra fullframe forge es-mode edn csv-mode clojure-cheatsheet beacon ag)))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
