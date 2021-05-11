@@ -84,8 +84,18 @@
       (mark-sexp)
       (exchange-point-and-mark))))
 
+(defun line-forward-mark ()
+  (interactive)
+  (if mark-active
+      (next-line)
+    (progn
+      (set-mark-command nil)
+      (next-line))))
+
 (global-set-key (kbd "M-p") 'word-forward-mark)
 (global-set-key (kbd "C-M-p") 'sexp-forward-mark)
+(global-set-key (kbd "M-s-p") 'line-forward-mark)
+(global-set-key (kbd "M-s-b") 'previous-line)
 
 (show-paren-mode 1)
 
