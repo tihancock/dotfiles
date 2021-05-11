@@ -3,6 +3,7 @@
 
 (setq mc/cmds-to-run-for-all
       '(
+	c-electric-paren
 	))
 
 (setq mc/cmds-to-run-once

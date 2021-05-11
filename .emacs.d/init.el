@@ -144,12 +144,12 @@
 (global-set-key (kbd "s-k") 'kill-this-buffer)
 
 ;; hyper bindings
+(global-set-key (kbd "H-t") 'mc/unmark-next-like-this)
 (global-set-key (kbd "H-g") 'mc/mark-next-like-this)
-(global-set-key (kbd "H-b") 'mc/unmark-next-like-this)
-(global-set-key (kbd "H-t") 'mc/mark-all-like-this)
-
+(global-set-key (kbd "H-b") 'mc/mark-all-like-this)
+(global-set-key (kbd "H-s") 'save-buffer)
+(global-set-key (kbd "H-b") 'switch-to-buffer)
 (global-set-key (kbd "H-f") 'recentf-open-files)
-
 (global-set-key (kbd "H-v") 'ag-project)
 
 (require 'dired)
