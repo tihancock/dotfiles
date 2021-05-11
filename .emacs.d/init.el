@@ -1,4 +1,5 @@
 (load-theme 'dark-laptop t)
+(set-face-attribute 'default nil :family "Inconsolata" :height 200 :weight 'normal)
 
 (require 'package)
 
@@ -147,9 +148,11 @@
 (global-set-key (kbd "H-t") 'mc/unmark-next-like-this)
 (global-set-key (kbd "H-g") 'mc/mark-next-like-this)
 (global-set-key (kbd "H-b") 'mc/mark-all-like-this)
+(global-set-key (kbd "H-w") 'fixup-whitespace)
 (global-set-key (kbd "H-s") 'save-buffer)
 (global-set-key (kbd "H-b") 'switch-to-buffer)
-(global-set-key (kbd "H-f") 'recentf-open-files)
+(global-set-key (kbd "H-f") 'find-file)
+(global-set-key (kbd "H-d") 'recentf-open-files)
 (global-set-key (kbd "H-v") 'ag-project)
 
 (require 'dired)
