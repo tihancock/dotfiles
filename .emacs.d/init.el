@@ -148,7 +148,7 @@
 (global-set-key (kbd "H-b") 'mc/unmark-next-like-this)
 (global-set-key (kbd "H-t") 'mc/mark-all-like-this)
 
-(global-set-key (kbd "H-r") 'recentf-open-files)
+(global-set-key (kbd "H-f") 'recentf-open-files)
 
 (global-set-key (kbd "H-v") 'ag-project)
 
@@ -274,6 +274,17 @@
 
 (add-hook 'web-mode-hook  'web-mode-init-prettier-hook)
 (add-hook 'web-mode-hook  'emmet-mode)
+
+;; autosave
+(defun xah-save-all-unsaved ()
+  "Save all unsaved files. no ask.
+Version 2019-11-05"
+  (interactive)
+  (save-some-buffers t ))
+
+(if (version< emacs-version "27")
+    (add-hook 'focus-out-hook 'xah-save-all-unsaved)
+  (setq after-focus-change-function 'xah-save-all-unsaved))
 
 ;; secrets etc
 (let ((company-settings "~/.emacs-company.el"))
