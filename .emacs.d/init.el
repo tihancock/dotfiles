@@ -266,6 +266,13 @@
  '((elasticsearch . t)))
 
 ;; js
+(setq
+ indent-tabs-mode nil
+ js-indent-level 2
+ web-mode-markup-indent-offset 2
+ web-mode-css-indent-offset 2
+ web-mode-code-indent-offset 2)
+
 (require 'prettier-js)
 
 (add-to-list 'auto-mode-alist '("\\.jsx?$" . web-mode))
@@ -277,6 +284,8 @@
 
 (add-hook 'web-mode-hook  'web-mode-init-prettier-hook)
 (add-hook 'web-mode-hook  'emmet-mode)
+(add-hook 'web-mode-hook (lambda ()
+                           (setq-local emmet-expand-jsx-className? t)))
 
 ;; autosave
 (defun xah-save-all-unsaved ()
