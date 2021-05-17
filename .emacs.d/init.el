@@ -154,6 +154,7 @@
 (global-set-key (kbd "H-f") 'find-file)
 (global-set-key (kbd "H-d") 'recentf-open-files)
 (global-set-key (kbd "H-v") 'ag-project)
+(global-set-key (kbd "H-u") 'paredit-forward-slurp-sexp)
 
 (require 'dired)
 (define-key dired-mode-map [(control left)] 'dired-up-directory)
