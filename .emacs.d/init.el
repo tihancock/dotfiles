@@ -180,9 +180,8 @@
 
 (global-set-key [f3] 'ag-project)
 (global-set-key [f4] 'todo)
-(global-set-key [f5] 'recentf-open-files)
+(global-set-key [f5] 'magit-blame)
 (global-set-key [f6] 'get-me-magit)
-(global-set-key [f9] 'magit-blame)
 
 (require 'fullframe)
 (fullframe get-me-magit magit-mode-quit-window)
@@ -208,20 +207,6 @@
 (setq cider-prompt-for-symbol nil)
 (setq cider-repl-use-pretty-printing t)
 (setq cider-print-quota (* 10 1024))
-
-(defun take-this-to-the-repl ()
-  (interactive)
-  (progn
-    (cider-debug-mode-send-reply (format "{:response :eval :code (intern (-> *ns* str symbol) '%s %s)}" (current-word) (current-word)))
-    (cider-switch-to-repl-buffer)))
-(global-set-key [f9] 'take-this-to-the-repl)
-
-(defun pprint-this-in-the-repl ()
-  (interactive)
-  (progn
-    (cider-debug-mode-send-reply (format "{:response :eval :code (clojure.pprint/pprint %s)}" (read-string "local to pprint: ")))
-    (cider-switch-to-repl-buffer)))
-(global-set-key (kbd "C-x p p") 'pprint-this-in-the-repl)
 
 ;; org
 (require 'org-habit)
@@ -269,12 +254,16 @@
 ;; js
 (setq
  indent-tabs-mode nil
- js-indent-level 2
- web-mode-markup-indent-offset 2
- web-mode-css-indent-offset 2
- web-mode-code-indent-offset 2)
+ js-indent-level 4
+ web-mode-markup-indent-offset 4
+ web-mode-css-indent-offset 4
+ web-mode-code-indent-offset 4)
 
 (require 'prettier-js)
+(setq prettier-js-args '(
+			 "--tab-width" "4"
+			 "--print-width" "120"
+))
 
 (add-to-list 'auto-mode-alist '("\\.jsx?$" . web-mode))
 (setq web-mode-content-types-alist '(("jsx" . "\\.js[x]?\\'")))
@@ -283,7 +272,7 @@
   (add-node-modules-path)
   (prettier-js-mode))
 
-(add-hook 'web-mode-hook  'web-mode-init-prettier-hook)
+;;(add-hook 'web-mode-hook  'web-mode-init-prettier-hook)
 (add-hook 'web-mode-hook  'emmet-mode)
 (add-hook 'web-mode-hook (lambda ()
                            (setq-local emmet-expand-jsx-className? t)))
