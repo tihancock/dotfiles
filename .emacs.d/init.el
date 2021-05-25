@@ -177,6 +177,7 @@
   (interactive)
   (magit-status)
   (magit-refresh))
+(setq magit-git-executable "/usr/bin/git")
 
 (global-set-key [f3] 'ag-project)
 (global-set-key [f4] 'todo)
