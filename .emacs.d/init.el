@@ -53,7 +53,6 @@
 (blink-cursor-mode 0)
 (beacon-mode 1)
 (setq ring-bell-function 'ignore)
-(setq confirm-kill-emacs 'yes-or-no-p)
 (global-unset-key [(control z)])
 (savehist-mode 1)
 (setq-default major-mode 'text-mode)
