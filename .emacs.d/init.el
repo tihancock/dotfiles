@@ -131,6 +131,10 @@
 (pending-delete-mode 1)
 (paredit-mode)
 
+(defun upcase-previous-word ()
+  (interactive)
+  (upcase-word -1))
+
 (global-set-key [(meta g)] 'goto-line)
 (global-set-key [(home)] 'beginning-of-buffer)
 (global-set-key [(end)] 'end-of-buffer)
@@ -154,7 +158,10 @@
 (global-set-key (kbd "H-f") 'find-file)
 (global-set-key (kbd "H-d") 'recentf-open-files)
 (global-set-key (kbd "H-v") 'ag-project)
-(global-set-key (kbd "H-u") 'paredit-forward-slurp-sexp)
+(global-set-key (kbd "H-c") 'upcase-previous-word)
+
+(global-set-key (kbd "H-j") 'paredit-forward-slurp-sexp)
+(global-set-key (kbd "H-k") 'paredit-forward-barf-sexp)
 
 (require 'dired)
 (define-key dired-mode-map [(control left)] 'dired-up-directory)
