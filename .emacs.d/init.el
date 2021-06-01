@@ -1,5 +1,5 @@
 (load-theme 'dark-laptop t)
-(set-face-attribute 'default nil :family "Inconsolata" :height 200 :weight 'normal)
+(set-face-attribute 'default nil :height 250)
 
 (require 'package)
 
