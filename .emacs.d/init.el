@@ -1,5 +1,5 @@
 (load-theme 'dark-laptop t)
-(set-face-attribute 'default nil :height 250)
+(set-face-attribute 'default nil :height 200)
 
 (require 'package)
 
