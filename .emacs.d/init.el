@@ -102,18 +102,18 @@
 (global-set-key (kbd "C-M-S-<tab>") 'clojure-align)
 
 ;; window management
-(global-set-key (kbd "s-1") 'delete-other-windows)
-(global-set-key (kbd "s-2") (lambda ()
+(global-set-key (kbd "H-1") 'delete-other-windows)
+(global-set-key (kbd "H-2") (lambda ()
 			      (interactive)
 			      (delete-other-windows)
 			      (split-window-right)))
-(global-set-key (kbd "s-3") (lambda ()
+(global-set-key (kbd "H-3") (lambda ()
 			      (interactive)
 			      (delete-other-windows)
 			      (split-window-right)
 			      (split-window-right)
 			      (balance-windows)))
-(global-set-key (kbd "s-4") (lambda ()
+(global-set-key (kbd "H-4") (lambda ()
 			      (interactive)
 			      (delete-other-windows)
 			      (split-window-right)
@@ -158,6 +158,7 @@
 (global-set-key (kbd "H-d") 'recentf-open-files)
 (global-set-key (kbd "H-v") 'ag-project)
 (global-set-key (kbd "H-c") 'upcase-previous-word)
+(global-set-key (kbd "H-a") 'clojure-align)
 
 (global-set-key (kbd "H-j") 'paredit-forward-slurp-sexp)
 (global-set-key (kbd "H-k") 'paredit-forward-barf-sexp)
@@ -203,7 +204,25 @@
 (setq org-babel-clojure-backend 'cider)
 (require 'cider)
 
-(add-hook 'clojure-mode-hook #'enable-paredit-mode)
+;; clojure layout
+(add-hook 'clojure-mode-hook  (lambda ()
+				(paredit-mode)
+                                (define-clojure-indent
+                                  ;; compojure
+                                  (defroutes 'defun)
+                                  (stubbing 1)
+                                  (GET 2)
+                                  (POST 2)
+                                  (PUT 2)
+                                  (DELETE 2)
+                                  (HEAD 2)
+                                  (ANY 2)
+                                  (context 2)
+                                  ;; core.logic
+                                  (match 'defun)
+                                  ;; slingshot
+                                  (try+ 0))))
+
 (add-hook 'cider-mode-hook 'eldoc-mode)
 (setq nrepl-hide-special-buffers t)
 (setq cider-repl-pop-to-buffer-on-connect t)
@@ -313,7 +332,7 @@ Version 2019-11-05"
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  '(package-selected-packages
-   '(thing-cmds exec-path-from-shell smartparens smart-parens auto-complete yasnippet yaml-mode ws-trim window-number wgrep-ag web-mode w3m use-package transient swiper spotify slime sayid restclient request projectile paredit-everywhere multiple-cursors lua-mode lsp-mode json-mode inflections hydra fullframe forge es-mode edn csv-mode clojure-cheatsheet beacon ag)))
+   '(clojure-mode clojure-mode-extra-font-locking thing-cmds exec-path-from-shell smartparens smart-parens auto-complete yasnippet yaml-mode ws-trim window-number wgrep-ag web-mode w3m use-package transient swiper spotify slime sayid restclient request projectile paredit-everywhere multiple-cursors lua-mode lsp-mode json-mode inflections hydra fullframe forge es-mode edn csv-mode clojure-cheatsheet beacon ag)))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
