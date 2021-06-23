@@ -326,7 +326,8 @@ Version 2019-11-05"
 (require 'smartparens-config)
 (add-hook 'prog-mode-hook 'smartparens-mode)
 
-(linum-mode)
+(when (version<= "26.0.50" emacs-version )
+  (global-display-line-numbers-mode))
 
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
